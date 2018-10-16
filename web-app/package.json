@@ -1,7 +1,7 @@
 {
-  "name": "clp-network",
+  "name": "loyaly-points",
   "version": "0.0.1",
-  "description": "A customer loyalty program network",
+  "description": "Customer loyalty points on blockchain",
   "scripts": {
     "start": "node app.js"
   },

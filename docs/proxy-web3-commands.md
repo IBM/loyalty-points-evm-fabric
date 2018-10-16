@@ -64,7 +64,7 @@ Assign this account as defaultAccount
 web3.eth.defaultAccount = web3.eth.accounts[0]
 ```
 
-### Loyalty Points Contract
+## Loyalty Points Contract
 
 Now we are ready to deploy the LoyaltyPoints contract. We will assign the contract's ABI and byte code.  These can be generate through remix (http://remix.ethereum.org)
 
@@ -323,37 +323,40 @@ myContract = LoyaltyContract.at(..ContractAddress..)
 >myContract = LoyaltyContract.at('0d1a55141966923bb21388aa8233b5d3be901b9e')
 ```
 
-This contract address will be used to interact with your contract through the application. At this point, you can move to [running the application](./run-application) and interact with the contract using the proxy and contract address.
+This contract address will be used to interact with your contract through the application. At this point, you can move to [running the application](./run-application.md) and interact with the contract using the proxy and contract address.
 
-### Interact with contract
+## Interact with contract
 
-Now we can register our account from the proxy as a member on the network
+Now we can register our account from the proxy as a loyalty points member on the network
 
-```
-myContract.registerMember(111111, "Jerry", "Doe", "jerry@doe.com", { from: web3.eth.accounts[0] })
-myContract.members(web3.eth.accounts[0])
-```
-output:
-```
-'a9510d512703f1af5ef8b4f22b2c4eca35e199540b37e6dc143b30092bbd6479'
-```
+### Member
 
-View the member data
-```
-myContract.members(web3.eth.accounts[0])
-```
-output:
-```
-[ BigNumber { s: 1, e: 5, c: [ 111111 ] },
-  'Jerry',
-  'Doe',
-  'jerry@doe.com',
-  BigNumber { s: 1, e: 0, c: [ 0 ] } ]
-```
+* Register account as loyalty points member and passing an account number, first name, last name and email as args
+  ```
+  myContract.registerMember(111111, "Jerry", "Doe", "jerry@doe.com", { from: web3.eth.accounts[0] })
+  myContract.members(web3.eth.accounts[0])
+  ```
+  output would be similar hash:
+  ```
+  'a9510d512703f1af5ef8b4f22b2c4eca35e199540b37e6dc143b30092bbd6479'
+  ```
+
+* View the member data stored for the account
+  ```
+  myContract.members(web3.eth.accounts[0])
+  ```
+  output:
+  ```
+  [ BigNumber { s: 1, e: 5, c: [ 111111 ] },
+    'Jerry',
+    'Doe',
+    'jerry@doe.com',
+    BigNumber { s: 1, e: 0, c: [ 0 ] } ]
+  ```
 
 Now in order to earn points from a Partner, lets create a partner using a second proxy from Org2.
 
-#### Proxy Org2
+## Proxy Org2
 
 First, lets create a new config yaml file for the proxy.  Duplicate the `first-network-sdk-config.yaml` present here `${GOPATH}/src/github.com/hyperledger/fabric-chaincode-evm/examples/`, as `first-network-sdk-config-org2.yaml`. Update the organization to be `org2`.
 
@@ -404,41 +407,44 @@ Here again define the Loyalty ABI, and use it to define `LoyaltyContract`
 LoyaltyContract = web3.eth.contract(LoyaltyABI)
 ```
 
-Setup `myContract` with the deployed contract address from first proxy
+Setup `myContract` with the deployed contract address from first proxy like the command below but replacing the contract address with your contract address.
 ```
 myContract = LoyaltyContract.at('0d1a55141966923bb21388aa8233b5d3be901b9e')
 ```
 
-Now we are ready to register this proxy account as Partner on the network:
-```
-myContract.registerPartner(100, "United", { from: web3.eth.accounts[0] })
-```
+#### Partner
+
+* Now we are ready to register this proxy account as Partner on the network:
+  ```
+  myContract.registerPartner(100, "United", { from: web3.eth.accounts[0] })
+  ```
   output:
   ```
   'b7f87cbd7b0f049ed89a1640f993ceaaace841309be92ece230bd5d24b747004'
   ```
 
-View partner data on the network
-```
-myContract.partners(web3.eth.accounts[0])
-```
+* View partner's account:
+  ```
+  myContract.partners(web3.eth.accounts[0])
+  ```
   output:
   ```
   [ { [String: '100'] s: 1, e: 2, c: [ 100 ] }, 'United' ]
   ```
 
-```
-myContract.partnersInfo.call(0)
-```
+* Check partner's data on the network
+  ```
+  myContract.partnersInfo.call(0)
+  ```
   output:
   ```
   [ { [String: '100'] s: 1, e: 2, c: [ 100 ] }, 'United' ]
   ```
 
-
-```
-myContract.partnerInfosLength()
-```
+* the partnersInfo length should be 1 for for partner added on the network
+  ```
+  myContract.partnerInfosLength()
+  ```
   output:
   ```
   { [String: '1'] s: 1, e: 0, c: [ 1 ] }
@@ -448,17 +454,19 @@ myContract.partnerInfosLength()
 
 Go back to your node console for the first proxy as member and execute smart contract to earn points, use points and retrieve transaction data.
 
-```
-myContract.earnPoints(200, 100, { from: web3.eth.accounts[0] })
-```
+* earn `200` points from the Partner created on the second proxy with id `100`
+  ```
+  myContract.earnPoints(200, 100, { from: web3.eth.accounts[0] })
+  ```
   output would be a transaction hash:
   ```
   '799dbfbda90e1941c115c57372c1b6bca09eb032229a29f66eb69716f7e4c04b'
   ```
 
-```
-myContract.members(web3.eth.accounts[0])
-```
+* view the updated member's account where points should be `200` now
+  ```
+  myContract.members(web3.eth.accounts[0])
+  ```
   output:
   ```
   [ BigNumber { s: 1, e: 5, c: [ 111111 ] },
@@ -468,37 +476,40 @@ myContract.members(web3.eth.accounts[0])
   BigNumber { s: 1, e: 2, c: [ 200 ] } ]
   ```
 
-```
-myContract.transactions(0)
-```
+* view the transaction stored as the first instance of the array
+  ```
+  myContract.transactions(0)
+  ```
   output:
   ```
   [ BigNumber { s: 1, e: 2, c: [ 200 ] },
   BigNumber { s: 1, e: 0, c: [ 0 ] },
   BigNumber { s: 1, e: 5, c: [ 111111 ] },
   BigNumber { s: 1, e: 2, c: [ 100 ] } ]
-
   ```
 
-```  
-myContract.transactionsLength()
-```
+* check transaction length, which should be equal to 1
+  ```  
+  myContract.transactionsLength()
+  ```
   output:
   ```
   BigNumber { s: 1, e: 0, c: [ 1 ] }
   ```
 
-```  
-myContract.usePoints(50, 100, { from: web3.eth.accounts[0] })
-```
-  output:
+* use `50` points from the Partner created on the second proxy with id `100`
+  ```  
+  myContract.usePoints(50, 100, { from: web3.eth.accounts[0] })
+  ```
+  output would be a transaction hash:
   ```
   'db88a42b54880278bad43ed284310f72091970da3b3e4ca119881fe5186f53fe'
   ```
 
-```
-myContract.members(web3.eth.accounts[0])
-```
+* view the updated member's account where points should be updated to `150` now
+  ```
+  myContract.members(web3.eth.accounts[0])
+  ```
   output:
   ```
   [ BigNumber { s: 1, e: 5, c: [ 111111 ] },
@@ -508,9 +519,10 @@ myContract.members(web3.eth.accounts[0])
   BigNumber { s: 1, e: 2, c: [ 150 ] } ]
   ```
 
-```
-myContract.transactions.call(1)
-```
+* view the second transaction stored
+  ```
+  myContract.transactions.call(1)
+  ```
   output:
   ```
   [ BigNumber { s: 1, e: 1, c: [ 50 ] },
@@ -519,22 +531,11 @@ myContract.transactions.call(1)
   BigNumber { s: 1, e: 2, c: [ 100 ] } ]
   ```
 
-```
-myContract.transactionsLength()
-```
+* we should see transactions length to be `2` now
+  ```
+  myContract.transactionsLength()
+  ```
   output:
   ```
   BigNumber { s: 1, e: 0, c: [ 2 ] }
-  ```
-
-```
-myContract.members(web3.eth.accounts[0])
-```
-  output:
-  ```
-  [ BigNumber { s: 1, e: 5, c: [ 111111 ] },
-    'Jerry',
-    'Doe',
-    'jerry@doe.com',
-    BigNumber { s: 1, e: 2, c: [ 150 ] } ]
   ```

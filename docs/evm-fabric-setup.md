@@ -6,7 +6,7 @@
 In this guide, we will setup fabric locally using docker containers. Next we will install and instantiate the evm chaincode on our fabric peers.
 
 
-### Clean docker and set GOPATH
+## Clean docker and set GOPATH
 
 This will remove all your docker containers and images!
 ```
@@ -22,7 +22,7 @@ export GOBIN=$HOME/go/bin
 export PATH=$PATH:$HOME/go/bin
 ```
 
-### Get Fabric Samples and download Fabric images
+## Get Fabric Samples and download Fabric images
 
 Clone the `fabric-samples` repo in your GOPATH directory.
 ```
@@ -41,7 +41,7 @@ Download the docker images
 ./scripts/bootstrap.sh
 ```
 
-### Mount the EVM Chaincode
+## Mount the EVM Chaincode
 
 Clone the `fabric-chaincode-evm` repo in your GOPATH directory.
 ```

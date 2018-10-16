@@ -5,7 +5,7 @@
 
 This guide will provide steps to install truffle and ganache, setup truffle to compile and use ethereum accounts from ganache and walk through LoyaltyPoints.sol contract to check desired outcome.
 
-### Install Truffle
+## Install Truffle
 
 We can install Truffle with one npm command:
 
@@ -13,7 +13,7 @@ We can install Truffle with one npm command:
 npm install -g truffle
 ```
 
-### Install and Explore Ganache
+## Install and Explore Ganache
 
 Install [Ganache](https://truffleframework.com/ganache), allows to see the current status of all accounts, including their addresses, private keys, transactions and balances.
 
@@ -22,7 +22,7 @@ Install [Ganache](https://truffleframework.com/ganache), allows to see the curre
 </div>
 
 
-### Get Truffle `pet-shop` for testing
+## Get Truffle `pet-shop` for testing
 
 Navigate to the root of this directory create a folder for truffle compilation and running truffle commands.
 
@@ -38,7 +38,7 @@ Navigate to the root folder and copy the `LoyaltyPoints.sol` contract into the `
 cp LoyaltyPoints.sol /truffle-env/contracts
 ```
 
-### Compile and test `LoyaltyPoints.sol`
+## Compile and test `LoyaltyPoints.sol`
 
 Navigate to the `truffle-env` folder and compile the sol contract:
 
