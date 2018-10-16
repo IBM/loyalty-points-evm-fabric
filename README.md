@@ -15,7 +15,7 @@ This code pattern is for developers looking to start writing Solidity smart cont
 # Architecture Flow
 
 <p align="center">
-  <img width="650" height="200" src="docs/doc-images/arch-flow.png">
+  <img src="docs/doc-images/arch-flow.png">
 </p>
 
 **Note** The blockchain network will have multiple members and partners
