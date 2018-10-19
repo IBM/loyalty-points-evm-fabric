@@ -15,7 +15,7 @@ This code pattern is for developers looking to create blockchain applications wi
 # Architecture Flow
 
 <p align="center">
-  <img src="docs/doc-images/arch-flow.png">
+  <img src="docs/doc-images/arch.png">
 </p>
 
 **Note** The blockchain network can have multiple members and partners
