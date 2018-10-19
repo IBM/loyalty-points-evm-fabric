@@ -1,9 +1,9 @@
 
 # Solidity contract with Truffle
 
->**Note** These steps follow and inspired from the Truffle pet-shop tutorial [Ethereum Pet Shop -- Your First Dapp Cloud](https://truffleframework.com/tutorials/pet-shop)
+>**Note** These steps follow and inspired from the Truffle pet-shop tutorial [Ethereum Pet Shop -- Your First Dapp](https://truffleframework.com/tutorials/pet-shop)
 
-This guide will provide steps to install truffle and ganache, setup truffle to compile and use ethereum accounts from ganache and walk through LoyaltyPoints.sol contract to check desired outcome.
+This guide will provide steps to install truffle and ganache, setup truffle to compile and use ethereum accounts from ganache and walk through LoyaltyPoints.sol contract to check desired outcomes. Truffle is the most popular development framework for Ethereum, taking care of managing your contract artifacts, providing for custom deployments and library linking.  Ganache provides ethereum accounts to use for development of smart contract and decentralized application, allowing to see the current status of all accounts, including their addresses, private keys, transactions and balances.
 
 ## Install Truffle
 
@@ -22,7 +22,7 @@ Install [Ganache](https://truffleframework.com/ganache), allows to see the curre
 </div>
 
 
-## Get Truffle `pet-shop` for testing
+## Get Truffle Box for running Smart Contract
 
 Navigate to the root of this directory create a folder for truffle compilation and running truffle commands.
 
@@ -35,17 +35,34 @@ truffle unbox pet-shop
 Navigate to the root folder and copy the `LoyaltyPoints.sol` contract into the `contracts/` folder.
 
 ```
-cp LoyaltyPoints.sol /truffle-env/contracts
+cp LoyaltyPoints.sol ./truffle-env/contracts
 ```
 
-## Compile and test `LoyaltyPoints.sol`
+## Add script to deploy contract
+
+2_deploy_contracts.js
+
+```
+var LoyaltyPoints = artifacts.require("./LoyaltyPoints.sol");
+
+module.exports = function(deployer) {
+  deployer.deploy(LoyaltyPoints);
+};
+```
+
+## Compile and interact with `LoyaltyPoints.sol` Smart Contract
 
 Navigate to the `truffle-env` folder and compile the sol contract:
 
 ```
 truffle compile
 ```
-
+  output:
+  ```
+  Compiling ./contracts/LoyaltyPoints.sol...
+  Compiling ./contracts/Migrations.sol...
+  Writing artifacts to ./build/contracts
+  ```
 Reset truffle connection with Ganache accounts.  Ensure Ganache is running.
 ```
 truffle migrate --reset
@@ -59,10 +76,15 @@ truffle console
 ### Truffle Console Commands
 
 In truffle console:
+```
+truffle(development)>
+```
+
+Run the following commands to interact with the smart contract.
 
 * view the eth accounts
   ```
-  truffle(development)> web3.eth.accounts
+  web3.eth.accounts
   ```
   output:
   ```
@@ -81,7 +103,7 @@ In truffle console:
 
 * deploy the application
   ```
-  truffle(development)> LoyaltyPoints.deployed().then(function(instance) { app = instance })
+  LoyaltyPoints.deployed().then(function(instance) { app = instance })
   ```
   output:
   ```
@@ -90,7 +112,7 @@ In truffle console:
 
 * See the contract address
   ```
-  truffle(development)> app.address
+  app.address
   ```
   output:
   ```
@@ -99,7 +121,7 @@ In truffle console:
 
 * register member with eth.accounts[0], providing account number, first name, last name and email
   ```
-  truffle(development)> app.registerMember(111111, "Jerry", "Doe", "jerry@doe.com", { from: web3.eth.accounts[0] })
+  app.registerMember("Jerry", "Doe", "jerry@doe.com", { from: web3.eth.accounts[0] })
   ```
   output:
   ```
@@ -120,30 +142,31 @@ In truffle console:
 
 * view member data
   ```
-  truffle(development)> app.members(web3.eth.accounts[0])
+  app.members(web3.eth.accounts[0])
   ```
   output:
   ```
-  [ BigNumber { s: 1, e: 5, c: [ 111111 ] },
+  [ '0x8305dcff011f566ac51e165baa6a453213f9220c',
   'Jerry',
   'Doe',
   'jerry@doe.com',
-  BigNumber { s: 1, e: 0, c: [ 0 ] } ]
+  BigNumber { s: 1, e: 0, c: [ 0 ] },
+  true ]
   ```
 
 * to view number use `toNumber()` for the element, after capturing the object as variable
   ```
-  truffle(development)> app.members(web3.eth.accounts[0]).then(function(m) { member1 = m; })
-  member1[0].toNumber()
+  app.members(web3.eth.accounts[0]).then(function(m) { member1 = m; })
+  member1[4].toNumber()
   ```
   output:
   ```
-  111111
+  0
   ```
 
 * register partner with eth.accounts[1], and an id of 100
   ```
-  truffle(development)> app.registerPartner(100, "United", { from: web3.eth.accounts[1] })
+  app.registerPartner("United", { from: web3.eth.accounts[1] })
   ```
   output:
   ```
@@ -164,16 +187,16 @@ In truffle console:
 
 * view partner data  
   ```
-  truffle(development)> app.partners(web3.eth.accounts[1])
+  app.partners(web3.eth.accounts[1])
   ```
   output:
   ```
-  [ BigNumber { s: 1, e: 2, c: [ 100 ] }, 'United' ]
+  [ '0x7b0f5158c9e587d77aef0e302bb2005ae9288f2e', 'United', true ]
   ```
 
 * ensure partner data stored in our partnersInfo struct
   ```
-  truffle(development)> app.partnerInfosLength
+  app.partnersInfoLength
   ```
   output:
   ```
@@ -182,16 +205,16 @@ In truffle console:
 
 * check the data stored
   ```
-  truffle(development)> app.partnersInfo.call(0)
+  app.partnersInfo.call(0)
   ```
   output:
   ```
-  [ BigNumber { s: 1, e: 2, c: [ 100 ] }, 'United' ]
+  [ '0x7b0f5158c9e587d77aef0e302bb2005ae9288f2e', 'United', true ]
   ```
 
 * call earnPoints transaction from member account web3.eth.accounts[0], with number of points as first argument and partner id as second
   ```
-  truffle(development)> app.earnPoints(200, 100, { from: web3.eth.accounts[0] })
+  app.earnPoints(200, '0x7b0f5158c9e587d77aef0e302bb2005ae9288f2e', { from: web3.eth.accounts[0] })
   ```
   output:
   ```
@@ -212,20 +235,21 @@ In truffle console:
 
 * check updated member web3.eth.accounts[0] account
   ```
-  truffle(development)> app.members(web3.eth.accounts[0])
+  app.members(web3.eth.accounts[0])
   ```
   output:
   ```
-  [ BigNumber { s: 1, e: 5, c: [ 111111 ] },
+  [ '0x8305dcff011f566ac51e165baa6a453213f9220c',
   'Jerry',
   'Doe',
   'jerry@doe.com',
-  BigNumber { s: 1, e: 2, c: [ 200 ] } ]
+  BigNumber { s: 1, e: 2, c: [ 200 ] },
+  true ]
   ```
 
 * call usePoints transaction from member account web3.eth.accounts[0], with number of points as first argument and partner id as second
   ```
-  truffle(development)> app.usePoints(50, 100, { from: web3.eth.accounts[0] })
+  app.usePoints(50, '0x7b0f5158c9e587d77aef0e302bb2005ae9288f2e', { from: web3.eth.accounts[0] })
   ```
   output:
   ```
@@ -246,20 +270,21 @@ In truffle console:
 
 * check updated member web3.eth.accounts[0] account
   ```
-  truffle(development)> app.members(web3.eth.accounts[0])
+  app.members(web3.eth.accounts[0])
   ```
   output:
   ```
-  [ BigNumber { s: 1, e: 5, c: [ 111111 ] },
+  [ '0x8305dcff011f566ac51e165baa6a453213f9220c',
   'Jerry',
   'Doe',
   'jerry@doe.com',
-  BigNumber { s: 1, e: 2, c: [ 150 ] } ]
+  BigNumber { s: 1, e: 2, c: [ 150 ] },
+  true ]
   ```
 
 * check number of transactions stored
   ```
-  truffle(development)> app.transactionsLength()
+  app.transactionsInfoLength()
   ```
   output:
   ```
@@ -268,24 +293,24 @@ In truffle console:
 
 * retrieve the first transaction stored
   ```
-  truffle(development)> app.transactions(0)
+  app.transactionsInfo(0)
   ```
   output:
   ```
   [ BigNumber { s: 1, e: 2, c: [ 200 ] },
-  BigNumber { s: 1, e: 0, c: [ 0 ] },
-  BigNumber { s: 1, e: 5, c: [ 111111 ] },
-  BigNumber { s: 1, e: 2, c: [ 100 ] } ]
+    BigNumber { s: 1, e: 0, c: [ 0 ] },
+    '0x8305dcff011f566ac51e165baa6a453213f9220c',
+    '0x7b0f5158c9e587d77aef0e302bb2005ae9288f2e' ]
   ```
 
 * retrieve the second transaction stored
   ```
-  truffle(development)> app.transactions(1)
+  app.transactionsInfo(1)
   ```
   output:
   ```
   [ BigNumber { s: 1, e: 1, c: [ 50 ] },
   BigNumber { s: 1, e: 0, c: [ 1 ] },
-  BigNumber { s: 1, e: 5, c: [ 111111 ] },
-  BigNumber { s: 1, e: 2, c: [ 100 ] } ]
+  '0x8305dcff011f566ac51e165baa6a453213f9220c',
+  '0x7b0f5158c9e587d77aef0e302bb2005ae9288f2e' ]
   ```

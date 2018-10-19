@@ -2,104 +2,119 @@ pragma solidity 0.4.24;
 
 contract LoyaltyPoints {
 
-    // model transaction
-    enum TransactionType { Earned, Redeemed }
-    struct Transaction {
-        uint points;
-        TransactionType transactionType;
-        uint memberAccountNumber;
-        uint partnerId;
-    }
-
     // model a member
     struct Member {
-        uint accountNumber;   //identifiable on transactions ledger
+        address memberAddress;
         string firstName;
         string lastName;
         string email;
         uint points;
+        bool isRegistered;
     }
 
     // model a partner
     struct Partner {
-        uint id;    //identifiable on transactions ledger
+        address partnerAddress;
         string name;
+        bool isRegistered;
+    }
+
+    // model points transaction
+    enum TransactionType { Earned, Redeemed }
+    struct PointsTransaction {
+        uint points;
+        TransactionType transactionType;
+        address memberAddress;
+        address partnerAddress;
     }
 
     //members and partners on the network mapped with their address
     mapping(address => Member) public members;
     mapping(address => Partner) public partners;
 
-    //public transaction and partners information
+    //public transactions and partners information
     Partner[] public partnersInfo;
-    Transaction[] public transactions;
+    PointsTransaction[] public transactionsInfo;
 
-
-    function registerMember (uint _accountNumber, string _firstName, string _lastName, string _email) public {
+    //register sender as member
+    function registerMember (string _firstName, string _lastName, string _email) public {
       //check msg.sender in existing members
+      require(!members[msg.sender].isRegistered, "Account already registered as Member");
+
       //check msg.sender in existing partners
+      require(!partners[msg.sender].isRegistered, "Account already registered as Partner");
 
       //add member account
-      members[msg.sender] = Member(_accountNumber, _firstName, _lastName, _email, 0);
+      members[msg.sender] = Member(msg.sender, _firstName, _lastName, _email, 0, true);
     }
 
-    function registerPartner (uint _id, string _name) public {
+    //register sender as partner
+    function registerPartner (string _name) public {
       //check msg.sender in existing members
+      require(!members[msg.sender].isRegistered, "Account already registered as Member");
+
       //check msg.sender in existing partners
+      require(!partners[msg.sender].isRegistered, "Account already registered as Partner");
 
       //add partner account
-      partners[msg.sender] = Partner(_id, _name);
+      partners[msg.sender] = Partner(msg.sender, _name, true);
 
       //add partners info to be shared with members
-      partnersInfo.push(Partner({
-        id: _id,
-        name: _name
-      }));
+      partnersInfo.push(Partner(msg.sender, _name, true));
 
     }
 
-    // only member can call
-    function earnPoints (uint _points, uint _partnerId ) public {
+    //update member with points earned
+    function earnPoints (uint _points, address _partnerAddress ) public {
+      // only member can call
+      require(members[msg.sender].isRegistered, "Sender not registered as Member");
 
-      // verify partnerId
+      // verify partner address
+      require(partners[_partnerAddress].isRegistered, "Partner address not found");
 
       // update member account
       members[msg.sender].points = members[msg.sender].points + _points;
 
       // add transction
-      transactions.push(Transaction({
+      transactionsInfo.push(PointsTransaction({
         points: _points,
         transactionType: TransactionType.Earned,
-        memberAccountNumber: members[msg.sender].accountNumber,
-        partnerId: _partnerId
+        memberAddress: members[msg.sender].memberAddress,
+        partnerAddress: _partnerAddress
       }));
 
     }
 
-    // only member can call
-    function usePoints (uint _points, uint _partnerId) public {
+    //update member with points used
+    function usePoints (uint _points, address _partnerAddress) public {
+      // only member can call
+      require(members[msg.sender].isRegistered, "Sender not registered as Member");
 
-      // verify partnerId
+      // verify partner address
+      require(partners[_partnerAddress].isRegistered, "Partner address not found");
+
+      // verify enough points for member
+      require(members[msg.sender].points >= _points, "Insufficient points");
 
       // update member account
       members[msg.sender].points = members[msg.sender].points - _points;
 
       // add transction
-      transactions.push(Transaction({
+      transactionsInfo.push(PointsTransaction({
         points: _points,
         transactionType: TransactionType.Redeemed,
-        memberAccountNumber: members[msg.sender].accountNumber,
-        partnerId: _partnerId
+        memberAddress: members[msg.sender].memberAddress,
+        partnerAddress: _partnerAddress
       }));
     }
 
-    //get length of transactions array
-    function transactionsLength() public view returns(uint256) {
-        return transactions.length;
+    //get length of transactionsInfo array
+    function transactionsInfoLength() public view returns(uint256) {
+        return transactionsInfo.length;
     }
 
     //get length of partnersInfo array
-    function partnerInfosLength() public view returns(uint256) {
+    function partnersInfoLength() public view returns(uint256) {
         return partnersInfo.length;
     }
 
