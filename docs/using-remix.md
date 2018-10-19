@@ -5,7 +5,7 @@ We can use [remix](http://remix.ethereum.org) to get the contract byte code and 
 * Go to the [remix](http://remix.ethereum.org) site
 
 <p align="center">
-  <img src="doc-images/use-case.png">
+  <img src="doc-images/remix.png">
 </p>
 
 * Create a new contract `LoyaltyPoints.sol` by clicking the icon in the top left.
@@ -28,4 +28,4 @@ We can use [remix](http://remix.ethereum.org) to get the contract byte code and 
   <img src="doc-images/remix-bytecode.png">
 </p>
 
-* Similarly, you can get the Bytecode by clicking the `Bytecode` icon.  Here, it captures the json with the byte code in the "object" key 
+* Similarly, you can get the Bytecode by clicking the `Bytecode` icon.  Here, it captures the json with the byte code in the "object" key
