@@ -539,7 +539,7 @@ The application will be hosted at: http://localhost:8000/
 * [Solidity contract with Truffle](./docs/truffle-commands.md)
 * [Using remix to get ABI and bytecode](./docs/using-remix.md)
 * [Setup Fab Proxy and using Web3](./docs/proxy-web3-commands.md)
-
+* [Loyalty Program Use Case](./docs/use-case.md)
 
 ## Links
 * [Fabric Chaincode EVM](https://github.com/hyperledger/fabric-chaincode-evm)

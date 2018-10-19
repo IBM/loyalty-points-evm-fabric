@@ -40,7 +40,7 @@ cp LoyaltyPoints.sol ./truffle-env/contracts
 
 ## Add script to deploy contract
 
-2_deploy_contracts.js
+Create a script in the `migrations` folder called `2_deploy_contracts.js` and place the following text:
 
 ```
 var LoyaltyPoints = artifacts.require("./LoyaltyPoints.sol");
@@ -49,6 +49,8 @@ module.exports = function(deployer) {
   deployer.deploy(LoyaltyPoints);
 };
 ```
+
+This will ensure migration of the `LoyaltyPoints.sol` contract.
 
 ## Compile and interact with `LoyaltyPoints.sol` Smart Contract
 
