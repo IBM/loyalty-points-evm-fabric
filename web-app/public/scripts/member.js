@@ -9,10 +9,9 @@ function updateMember() {
 
   //get user input data
   var formProxy = $('.proxy input').val();
-  var formContractAddress = $('.contractAddress input').val();
 
   //create json data
-  var inputData = '{' + '"proxy" : "' + formProxy + '", ' + '"contractaddress" : "' + formContractAddress + '"}';
+  var inputData = '{' + '"proxy" : "' + formProxy + '"}';
   console.log(inputData)
 
   //make ajax call
@@ -71,31 +70,20 @@ function updateMember() {
           return str;
         });
 
-        //update earn points transaction
-        $('.points-allocated-transactions').html(function() {
+        //update all transactions
+        $('.points-transactions').html(function() {
           var str = '';
           var transactionData = data.transactionsData;
+          var transactionType = '';
 
           for (var i = 0; i < transactionData.length; i++) {
 
             if(transactionData[i][1] == 0) {
-              str = str + '<p><b>partnerID</b>: ' + transactionData[i][3] + '<br /><b>memberID</b>: ' + transactionData[i][2] + '<br /><b>points</b>: ' + transactionData[i][0] + '</p><br>';
+              transactionType = 'Points Earned';
+            } else if (transactionData[i][1] == 1) {
+              transactionType = 'Points Redeemed';
             }
-          }
-          return str;
-        });
-
-        //update use points transaction
-        $('.points-redeemed-transactions').html(function() {
-          var str = '';
-
-          var transactionData = data.transactionsData;
-
-          for (var i = 0; i < transactionData.length; i++) {
-
-            if(transactionData[i][1] == 1) {
-              str = str + '<p><b>partnerID</b>: ' + transactionData[i][3] + '<br /><b>memberID</b>: ' + transactionData[i][2] + '<br /><b>points</b>: ' + transactionData[i][0] + '</p><br>';
-            }
+            str = str + '<p><b>Partner Address</b>: ' + transactionData[i][3] + '<br /><b>Member Address</b>: ' + transactionData[i][2] + '<br /><b>Transaction Type</b>: ' + transactionType + '<br /><b>Points</b>: ' + transactionData[i][0] + '</p><br>';
           }
           return str;
         });
@@ -108,7 +96,7 @@ function updateMember() {
 
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      //reload on error
+      document.getElementById('loader').style.display = "none";
       alert("Error: Try again")
       console.log(errorThrown);
       console.log(textStatus);
@@ -150,7 +138,7 @@ function earnPoints(formPoints) {
   var formPartnerId = $('.earn-partner select').find(":selected").attr('partner-id');
 
   //create json data
-  var inputData = '{' + '"proxy" : "' + formProxy + '", ' + '"points" : "' + formPoints + '", ' + '"partnerid" : "' + formPartnerId + '", ' + '"contractaddress" : "' + formContractAddress +'"}';
+  var inputData = '{' + '"proxy" : "' + formProxy + '", ' + '"points" : "' + formPoints + '", ' + '"partneraddress" : "' + formPartnerId + '", ' + '"contractaddress" : "' + formContractAddress +'"}';
   console.log(inputData)
 
   //make ajax call
@@ -183,6 +171,7 @@ function earnPoints(formPoints) {
 
     },
     error: function(jqXHR, textStatus, errorThrown) {
+      document.getElementById('loader').style.display = "none";
       alert("Error: Try again")
       console.log(errorThrown);
       console.log(textStatus);
@@ -220,7 +209,7 @@ function usePoints(formPoints) {
   var formPartnerId = $('.use-partner select').find(":selected").attr('partner-id');
 
   //create json data
-  var inputData = '{' + '"proxy" : "' + formProxy + '", ' + '"points" : "' + formPoints + '", ' + '"partnerid" : "' + formPartnerId + '", ' + '"contractaddress" : "' + formContractAddress + '"}';
+  var inputData = '{' + '"proxy" : "' + formProxy + '", ' + '"points" : "' + formPoints + '", ' + '"partneraddress" : "' + formPartnerId + '", ' + '"contractaddress" : "' + formContractAddress + '"}';
 
   //make ajax call
   $.ajax({
@@ -251,6 +240,7 @@ function usePoints(formPoints) {
 
     },
     error: function(jqXHR, textStatus, errorThrown) {
+      document.getElementById('loader').style.display = "none";
       alert("Error: Try again")
       console.log(errorThrown);
       console.log(textStatus);

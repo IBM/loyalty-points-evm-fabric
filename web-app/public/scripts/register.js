@@ -7,15 +7,12 @@ $('.register-member').click(function() {
 
   //get user input data
   var formProxy = $('.proxy input').val();
-  var formContractAddress = $('.contractAddress input').val();
-  var formAccountNum = $('.account-number input').val();
   var formFirstName = $('.first-name input').val();
   var formLastName = $('.last-name input').val();
   var formEmail = $('.email input').val();
 
-
   //create json data
-  var inputData = '{' + '"firstname" : "' + formFirstName + '", ' + '"lastname" : "' + formLastName + '", ' + '"email" : "' + formEmail + '", ' + '"accountnumber" : "' + formAccountNum + '", ' + '"proxy" : "' + formProxy + '", ' + '"contractaddress" : "' + formContractAddress + '"}';
+  var inputData = '{' + '"firstname" : "' + formFirstName + '", ' + '"lastname" : "' + formLastName + '", ' + '"email" : "' + formEmail + '", ' + '"proxy" : "' + formProxy + '"}';
   console.log(inputData)
 
   //make ajax call to add the dataset
@@ -69,12 +66,11 @@ $('.register-partner').click(function() {
 
   //get user input data
   var formName = $('.name input').val();
-  var formPartnerId = $('.partner-id input').val();
   var formProxy = $('.proxy input').val();
   var formContractAddress = $('.contractAddress input').val();
 
   //create json data
-  var inputData = '{' + '"name" : "' + formName + '", ' + '"partnerid" : "' + formPartnerId + '", ' + '"proxy" : "' + formProxy + '", ' + '"contractaddress" : "' + formContractAddress + '"}';
+  var inputData = '{' + '"name" : "' + formName + '", ' + '"proxy" : "' + formProxy + '", ' + '"contractaddress" : "' + formContractAddress + '"}';
   console.log(inputData)
 
   //make ajax call to add the dataset

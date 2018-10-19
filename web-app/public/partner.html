@@ -45,13 +45,8 @@
       <h2>Partner Sign In</h2>
       <br>
       <div class="proxy">
-        <p> Enter Proxy
-          <input value="http://localhost:5001">
-        </p>
-      </div>
-      <div class="contractAddress">
-        <p> Enter Contract Address
-          <input value="0d1a55141966923bb21388aa8233b5d3be901b9e">
+        <p> Enter Proxy Provider
+          <input value="http://localhost:5000">
         </p>
       </div>
       <button class="btn btn-primary sign-in-partner">SIGN IN</button>
@@ -69,7 +64,7 @@
             <td>
               <div style="padding-right: 20px">
                 <h2>name:</h2>
-                <h2>id:</h2>
+                <h2>address:</h2>
               </div>
             </td>
             <td>
@@ -104,46 +99,25 @@
 
           <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">
             <br>
-            <p>View transactions by transaction type </p>
-            <br>
-            <ul class="nav nav-tabs" id="transactionsTypeTab" role="tablist">
-              <li class="nav-item ">
-                <a class="nav-link active" id="points-allocated-tab" data-toggle="tab" href="#points-allocated" role="tab" aria-controls="points-allocated" aria-selected="true">Points Allocated</a>
-              </li>
-              <li class="nav-item ">
-                <a class="nav-link" id="points-redeemed-tab" data-toggle="tab" href="#points-redeemed" role="tab" aria-controls="points-redeemed" aria-selected="false">Points Redeemed</a>
-              </li>
-            </ul>
+            <div class="points-transactions"> </div>
 
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="points-allocated" role="tabpanel" aria-labelledby="points-allocated-tab">
-                <br>
-                <h4>Points Allocated Transactions</h4>
-                <br>
-                <div class="points-allocated-transactions"> </div>
-                <br><br>
-              </div>
-
-              <div class="tab-pane fade " id="points-redeemed" role="tabpanel" aria-labelledby="points-redeemed-tab">
-                <br>
-                <h4>Points Redeemed Transactions</h4>
-                <br>
-                <div class="points-redeemed-transactions"> </div>
-                <br><br>
-              </div>
-
-            </div>
+            <hr class="featurette-divider">
           </div>
 
         </div>
       </div>
 
-      <div class="container text-center">
-        <div class="loader" id="loader" style="display:none;"></div>
-      </div>
 
     </div>
 
+  </div>
+
+  <div class="container text-center">
+    <br><br>
+    <div class="container text-center">
+      <div class="loader" id="loader" style="display:none;"></div>
+    </div>
+  </div>
 
 </body>
 

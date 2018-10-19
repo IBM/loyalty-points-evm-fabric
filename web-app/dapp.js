@@ -1,10 +1,9 @@
 //import Web3 from "web3";
 const Web3 = require('web3');
+var contractAddress = 'afc802a0cd407f826a782b448a9a5c8008114d3d';
 
 var myContract;
-var provider; // get from app i.e "http://localhost:5001";
-var contractAddress; // get from app i.e "0d1a55141966923bb21388aa8233b5d3be901b9e";
-
+var provider;
 
 function getContract() {
     console.log("Getting the Contract")
@@ -29,8 +28,8 @@ function getContract() {
     		"name": "members",
     		"outputs": [
     			{
-    				"name": "accountNumber",
-    				"type": "uint256"
+    				"name": "memberAddress",
+    				"type": "address"
     			},
     			{
     				"name": "firstName",
@@ -47,6 +46,24 @@ function getContract() {
     			{
     				"name": "points",
     				"type": "uint256"
+    			},
+    			{
+    				"name": "isRegistered",
+    				"type": "bool"
+    			}
+    		],
+    		"payable": false,
+    		"stateMutability": "view",
+    		"type": "function"
+    	},
+    	{
+    		"constant": true,
+    		"inputs": [],
+    		"name": "transactionsInfoLength",
+    		"outputs": [
+    			{
+    				"name": "",
+    				"type": "uint256"
     			}
     		],
     		"payable": false,
@@ -56,10 +73,6 @@ function getContract() {
     	{
     		"constant": false,
     		"inputs": [
-    			{
-    				"name": "_accountNumber",
-    				"type": "uint256"
-    			},
     			{
     				"name": "_firstName",
     				"type": "string"
@@ -87,8 +100,8 @@ function getContract() {
     				"type": "uint256"
     			},
     			{
-    				"name": "_partnerId",
-    				"type": "uint256"
+    				"name": "_partnerAddress",
+    				"type": "address"
     			}
     		],
     		"name": "usePoints",
@@ -98,13 +111,48 @@ function getContract() {
     		"type": "function"
     	},
     	{
+    		"constant": false,
+    		"inputs": [
+    			{
+    				"name": "_points",
+    				"type": "uint256"
+    			},
+    			{
+    				"name": "_partnerAddress",
+    				"type": "address"
+    			}
+    		],
+    		"name": "earnPoints",
+    		"outputs": [],
+    		"payable": false,
+    		"stateMutability": "nonpayable",
+    		"type": "function"
+    	},
+    	{
     		"constant": true,
-    		"inputs": [],
-    		"name": "transactionsLength",
-    		"outputs": [
+    		"inputs": [
     			{
     				"name": "",
     				"type": "uint256"
+    			}
+    		],
+    		"name": "transactionsInfo",
+    		"outputs": [
+    			{
+    				"name": "points",
+    				"type": "uint256"
+    			},
+    			{
+    				"name": "transactionType",
+    				"type": "uint8"
+    			},
+    			{
+    				"name": "memberAddress",
+    				"type": "address"
+    			},
+    			{
+    				"name": "partnerAddress",
+    				"type": "address"
     			}
     		],
     		"payable": false,
@@ -122,79 +170,20 @@ function getContract() {
     		"name": "partners",
     		"outputs": [
     			{
-    				"name": "id",
-    				"type": "uint256"
+    				"name": "partnerAddress",
+    				"type": "address"
     			},
     			{
     				"name": "name",
     				"type": "string"
+    			},
+    			{
+    				"name": "isRegistered",
+    				"type": "bool"
     			}
     		],
     		"payable": false,
     		"stateMutability": "view",
-    		"type": "function"
-    	},
-    	{
-    		"constant": true,
-    		"inputs": [
-    			{
-    				"name": "",
-    				"type": "uint256"
-    			}
-    		],
-    		"name": "transactions",
-    		"outputs": [
-    			{
-    				"name": "points",
-    				"type": "uint256"
-    			},
-    			{
-    				"name": "transactionType",
-    				"type": "uint8"
-    			},
-    			{
-    				"name": "memberAccountNumber",
-    				"type": "uint256"
-    			},
-    			{
-    				"name": "partnerId",
-    				"type": "uint256"
-    			}
-    		],
-    		"payable": false,
-    		"stateMutability": "view",
-    		"type": "function"
-    	},
-    	{
-    		"constant": true,
-    		"inputs": [],
-    		"name": "partnerInfosLength",
-    		"outputs": [
-    			{
-    				"name": "",
-    				"type": "uint256"
-    			}
-    		],
-    		"payable": false,
-    		"stateMutability": "view",
-    		"type": "function"
-    	},
-    	{
-    		"constant": false,
-    		"inputs": [
-    			{
-    				"name": "_id",
-    				"type": "uint256"
-    			},
-    			{
-    				"name": "_name",
-    				"type": "string"
-    			}
-    		],
-    		"name": "registerPartner",
-    		"outputs": [],
-    		"payable": false,
-    		"stateMutability": "nonpayable",
     		"type": "function"
     	},
     	{
@@ -208,12 +197,30 @@ function getContract() {
     		"name": "partnersInfo",
     		"outputs": [
     			{
-    				"name": "id",
-    				"type": "uint256"
+    				"name": "partnerAddress",
+    				"type": "address"
     			},
     			{
     				"name": "name",
     				"type": "string"
+    			},
+    			{
+    				"name": "isRegistered",
+    				"type": "bool"
+    			}
+    		],
+    		"payable": false,
+    		"stateMutability": "view",
+    		"type": "function"
+    	},
+    	{
+    		"constant": true,
+    		"inputs": [],
+    		"name": "partnersInfoLength",
+    		"outputs": [
+    			{
+    				"name": "",
+    				"type": "uint256"
     			}
     		],
     		"payable": false,
@@ -224,15 +231,11 @@ function getContract() {
     		"constant": false,
     		"inputs": [
     			{
-    				"name": "_points",
-    				"type": "uint256"
-    			},
-    			{
-    				"name": "_partnerId",
-    				"type": "uint256"
+    				"name": "_name",
+    				"type": "string"
     			}
     		],
-    		"name": "earnPoints",
+    		"name": "registerPartner",
     		"outputs": [],
     		"payable": false,
     		"stateMutability": "nonpayable",
@@ -260,108 +263,162 @@ function getAccountAddress() {
 //export module
 module.exports = {
 
-  registerMember: function (accountNumber, firstName, lastName, email, proxy, contractAddressApp) {
-  //export function registerMember(accountNumber, name) {
-
-      console.log("register member from dapp");
+  registerMember: function (firstName, lastName, email, proxy) {
+    try {
       provider = proxy;
-      contractAddress = contractAddressApp;
       var myContract = getContract();
-      myContract.registerMember(accountNumber, firstName, lastName, email);
-
+      var response = myContract.registerMember(firstName, lastName, email);
+      return response;
+    }
+    catch(err) {
+      //print and return error
+      console.log(err);
+      var error = {};
+      error.error = err.message;
+      return error;
+    }
   },
 
-  registerPartner: function (partnerId, name, proxy, contractAddressApp) {
-  //export function registerMember(accountNumber, name) {
-
-      console.log("register partner from dapp");
+  registerPartner: function (name, proxy) {
+    try {
       provider = proxy;
-      contractAddress = contractAddressApp;
       var myContract = getContract();
-      myContract.registerPartner(partnerId, name);
-
+      var response = myContract.registerPartner(name);
+      return response;
+    }
+    catch(err) {
+      //print and return error
+      console.log(err);
+      var error = {};
+      error.error = err.message;
+      return error;
+    }
   },
 
-  memberData: function (proxy, contractAddressApp) {
+  memberData: function (proxy) {
+    try {
       provider = proxy;
-      contractAddress = contractAddressApp;
       var myContract = getContract();
       var accountAddress = getAccountAddress();
       var memberData = myContract.members(accountAddress);
-      //console.log(memberData);
-      return memberData;
+
+      if(memberData[5]) {
+        return memberData;
+      } else {
+        throw new Error("Member not found")
+      }
+
+    }
+    catch(err) {
+      //print and return error
+      console.log(err);
+      var error = {};
+      error.error = err.message;
+      return error;
+    }
   },
 
-  partnersData: function (proxy, contractAddressApp) {
+  partnersData: function (proxy) {
+    try {
       provider = proxy;
-      contractAddress = contractAddressApp;
       var myContract = getContract();
 
-      var partnersLength = myContract.partnerInfosLength();
+      var partnersLength = myContract.partnersInfoLength();
       var partnersData = [];
 
       for (var i = 0; i < partnersLength; i++) {
         partnersData.push(myContract.partnersInfo(i));
       }
 
-      console.log('partnersData')
-      console.log(partnersData);
-
       return partnersData;
+    }
+    catch(err) {
+      //print and return error
+      console.log(err);
+      var error = {};
+      error.error = err.message;
+      return error;
+    }
   },
 
-  transactionsData: function (proxy, contractAddressApp) {
+  transactionsData: function (proxy) {
+    try {
       provider = proxy;
       var myContract = getContract();
-      contractAddress = contractAddressApp;
 
-      var transactionsLength = myContract.transactionsLength();
+      var transactionsLength = myContract.transactionsInfoLength();
       var transactionsData = [];
 
       for (var i = 0; i < transactionsLength; i++) {
-        transactionsData.push(myContract.transactions(i));
+        transactionsData.push(myContract.transactionsInfo(i));
       }
 
-      console.log('transactionsData')
-      console.log(transactionsData);
-
       return transactionsData;
+    }
+    catch(err) {
+      //print and return error
+      console.log(err);
+      var error = {};
+      error.error = err.message;
+      return error;
+    }
   },
 
-  earnPoints: function (points, partnerId, proxy, contractAddressApp) {
+  earnPoints: function (points, partnerAddress, proxy) {
+    try {
       provider = proxy;
       var myContract = getContract();
-      contractAddress = contractAddressApp;
 
-      var response = myContract.earnPoints(points, partnerId);
+      var response = myContract.earnPoints(points, partnerAddress);
 
-      console.log("earnPoints response");
-      console.log(response);
       return response;
+    }
+    catch(err) {
+      //print and return error
+      console.log(err);
+      var error = {};
+      error.error = err.message;
+      return error;
+    }
   },
 
-  usePoints: function (points, partnerId, proxy, contractAddressApp) {
+  usePoints: function (points, partnerAddress, proxy) {
+    try {
       provider = proxy;
-      contractAddress = contractAddressApp;
-
       var myContract = getContract();
-
-      var response = myContract.usePoints(points, partnerId);
-
-      console.log("usePoints response");
-      console.log(response);
+      var response = myContract.usePoints(points, partnerAddress);
       return response;
+    }
+    catch(err) {
+      //print and return error
+      console.log(err);
+      var error = {};
+      error.error = err.message;
+      return error;
+    }
   },
 
-  partnerData: function (proxy, contractAddressApp) {
+  partnerData: function (proxy) {
+    try {
       provider = proxy;
-      contractAddress = contractAddressApp;
 
       var myContract = getContract();
       var accountAddress = getAccountAddress();
       var partnerData = myContract.partners(accountAddress);
 
-      return partnerData;
+      if(partnerData[2]) {
+        return partnerData;
+      } else {
+        throw new Error("Partner not found")
+      }
+    }
+    catch(err) {
+      //print and return error
+      console.log(err);
+      var error = {};
+      error.error = err.message;
+      return error;
+    }
   }
 
 }
