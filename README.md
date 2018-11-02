@@ -1,15 +1,15 @@
 # Loyalty Points with Fabric EVM
 
-This code pattern illustrates the Hyperledger Fabric EVM plugin which allows developers to create  blockchain application with EVM (Ethereum Virtual Machine) smart contract languages such as Solidity. This smart contract is deployed onto the EVM chaincode running on the Fabric peers. This pattern shows how a user, such as a member or partner for our loyalty points use case, can interact with the smart contract through a fab proxy.  This proxy allows for using the Ethereum web3.js library for interacting with the smart contract which is incorporated in the web application.  
+This code pattern illustrates the Hyperledger Fabric EVM which allows developers to create blockchain application with EVM (Ethereum Virtual Machine) smart contract languages such as Solidity. This smart contract is deployed onto the EVM chaincode running on the Fabric peers. This pattern shows how a user, such as a member or partner for our loyalty points use case, can interact with the smart contract through Fab3, a proxy to the fabric network. Fab3 allows for using the Ethereum web3.js library for interacting with the EVM in the Fabric network.
 
-A Node.js web application demonstrates a loyalty points contract by allowing users to register as members or partners on the network. The members can then sign-in and perform transactions to earn or redeem points with the partners on the network. All the transactions are stored by the smart contract and displayed to the members and partners accessing the application.
+A Node.js web application demonstrates a loyalty points contract by allowing users to register as members or partners on the network. The members can then perform transactions to earn or redeem points with the partners on the network, which are all recorded on the ledger. The decentralized application (DApp) acts a convenient way for users to submit and query transactions associated with a deployed smart contract.
 
-This code pattern is for developers looking to create blockchain applications with Hyperledger Fabric EVM incorporating Solidity smart contract and web3.js library. When the reader has completed this code pattern, they will understand how to:
+This code pattern is for developers looking to create blockchain applications with Hyperledger Fabric by using Solidity smart contracts and the web3.js library. When the reader has completed this code pattern, they will understand how to:
 
-* Deploy an instance of Hyperledger Fabric locally with EVM chaincode
-* Start a Fabric proxy to interact with the smart contract
-* Interact with the Solidity smart contract through web3 library
-* Build a Node.js blockchain web application with web3 library
+* Deploy an instance of Hyperledger Fabric locally with the EVM chaincode
+* Start a Fab3 instance to interact with the Fabric network
+* Interact with the Solidity smart contract using the web3 library
+* Build a Node.js blockchain web application with the web3 library
 
 
 # Architecture Flow
@@ -20,18 +20,18 @@ This code pattern is for developers looking to create blockchain applications wi
 
 **Note** The blockchain network can have multiple members and partners
 
-1. Partner would use a fab proxy for their account to access the blockchain network. The initial partner would deploy the smart contract to the blockchain network.
-2. Partner accesses the web application through their proxy, to register on the network and view all transactions.
-3. Member would use a fab proxy for their account to access the blockchain network
-4. Member accesses the web application through their proxy, to register on the network, perform transactions to earn or redeem points from the partners on the network, and view all transactions.
-5. The web application uses the ethereum web3.js library to execute smart contract
-6. The smart contract executions are updated on the network with the EVM chaincode installed on the peers
+1. Partner would use their Fab3 for their account to access the blockchain network. The initial partner would deploy the smart contract to the blockchain network.
+2. Partner accesses the web application through their Fab3, to register on the network and view all transactions.
+3. Member would use there Fab3 for their account to access the blockchain network
+4. Member accesses the web application through their Fab3, to register on the network, perform transactions to earn or redeem points from the partners on the network, and view all transactions.
+5. The web application uses the ethereum web3.js library to submit smart contract transactions.
+6. The smart contract executions are updated on the network using the EVM chaincode installed on the peers
 
 # Included Components
 
 * [Hyperledger Fabric v1.3](https://hyperledger-fabric.readthedocs.io/en/latest/) Hyperledger Fabric is a platform for distributed ledger solutions, underpinned by a modular architecture delivering high degrees of confidentiality, resiliency, flexibility and scalability
-* [Hyperledger Fabric EVM chaincode plugin](https://github.com/hyperledger/fabric-chaincode-evm) This project enables one to use the Hyperledger Fabric permissioned blockchain platform to interact with Ethereum smart contracts written in an EVM compatible language such as Solidity or Vyper.
-* [Ethereum web3.js](https://web3js.readthedocs.io/en/1.0/) web3.js is a collection of libraries which allow you to interact with a local or remote ethereum node, using a HTTP or IPC connection.
+* [Hyperledger Fabric EVM chaincode plugin](https://github.com/hyperledger/fabric-chaincode-evm) This project enables one to deploy Ethereum smart contracts written in an EVM compatible language such as Solidity or Vyper on the Hyperledger Fabric permissioned blockchain platform.
+* [Ethereum web3.js](https://web3js.readthedocs.io/en/1.0/) web3.js is a library which allow you to interact with a local or remote nodes that implement the Ethereum JSON RPC API, using a HTTP or IPC connection.
 * [Solidity](https://solidity.readthedocs.io/en/v0.4.25/) Solidity is a contract-oriented, high-level language for implementing smart contracts
 
 ## Featured technology
@@ -62,7 +62,7 @@ This code pattern is for developers looking to create blockchain applications wi
 
 ## 1. Deploy Hyperledger Fabric locally with EVM chaincode
 
-In this step, we will setup fabric locally using docker containers, and install and instantiate the evm chaincode on our fabric peers. This step uses the hyperledger [fabric-sample](https://github.com/hyperledger/fabric-samples) repo to deploy fabric locally and the [fabric-chaincode-evm](https://github.com/hyperledger/fabric-chaincode-evm) repo for the evm chaincode and configuration to start fab proxies for the users.  This step follows the [fabric-chaincode-evm tutorial](https://github.com/hyperledger/fabric-chaincode-evm) closely.
+In this step, we will setup fabric locally using docker containers, install the EVM chaincode (EVMCC) and instantiate the EVMCC on our fabric peers. This step uses the hyperledger [fabric-sample](https://github.com/hyperledger/fabric-samples) repo to deploy fabric locally and the [fabric-chaincode-evm](https://github.com/hyperledger/fabric-chaincode-evm) repo for the EVMCC, Fab3 and Fab3.  This step follows the [fabric-chaincode-evm tutorial](https://github.com/hyperledger/fabric-chaincode-evm/blob/master/examples/EVM_Smart_Contracts.md) closely.
 
 ### Clean docker and set GOPATH
 
@@ -156,12 +156,12 @@ peer chaincode instantiate -n evmcc -v 0 -C mychannel -c '{"Args":[]}' -o ordere
 ```
 
 
-Great. You are now ready to setup fab proxy.
+Great. You are now ready to setup Fab3.
 
 
-## 2. Setup Fab Proxy
+## 2. Setup Fab3
 
-In a terminal, execute the following to set certain environment variables required for setting the fab proxy.
+In a terminal, execute the following to set certain environment variables required for setting up Fab3.
 
 ```
 export FABPROXY_CONFIG=${GOPATH}/src/github.com/hyperledger/fabric-chaincode-evm/examples/first-network-sdk-config.yaml # Path to a compatible Fabric SDK Go config file
@@ -185,7 +185,7 @@ You can then run the proxy:
 ./fab3
 ```
 
-This will start fab proxy at `http://localhost:5000`
+This will start Fab3 at `http://localhost:5000`
 
 ## 3. Deploy the smart contract
 
@@ -216,7 +216,7 @@ Assign this account as defaultAccount
 web3.eth.defaultAccount = web3.eth.accounts[0]
 ```
 
-Now we are ready to deploy the LoyaltyPoints contract. We will assign the contract's ABI and byte code.  These can be generated through remix (http://remix.ethereum.org)
+Now we are ready to deploy the [LoyaltyPoints](LoyaltyPoints.sol) contract. We will assign the contract's ABI and byte code. These can be generated through remix (http://remix.ethereum.org)
 
 Assign the abi of the contract:
 
@@ -469,17 +469,17 @@ deployedContract = LoyaltyContract.new([], { data: LoyaltyByteCode })
 
 You can get the contract address by using the transaction hash of the deployed contract.
 ```
-web3.eth.getTransactionReceipt(..transactionHash..)
->web3.eth.getTransactionReceipt('6001c5fab58dbeb1efc990ce20a232522f5d1ea04bf8716357209a4d7e61e1e3')
+web3.eth.getTransactionReceipt(deployedContract.transactionHash)
+>web3.eth.getTransactionReceipt(deployedContract.)
 ```
 This contract address will be used to interact with your contract through the application.
 
 
-## 4. Setup second Fab Proxy
+## 4. Setup a second Fab3
 
 First, create a new config yaml file for the proxy. You can duplicate the `first-network-sdk-config.yaml` present here `${GOPATH}/src/github.com/hyperledger/fabric-chaincode-evm/examples/`, as the file `first-network-sdk-config-org2.yaml`. Update this config file for [organization](https://github.com/hyperledger/fabric-chaincode-evm/blob/master/examples/first-network-sdk-config.yaml#L25) to be `org2`.
 
-In a new terminal window, then provide environment variables for the second proxy using this config file and with a new port number:
+In a new terminal window, then provide environment variables for the second proxy using this config file, a new port number, and the different org:
 ```
 export FABPROXY_CONFIG=${GOPATH}/src/github.com/hyperledger/fabric-chaincode-evm/examples/first-network-sdk-config-org2.yaml # Path to a compatible Fabric SDK Go config file
 export FABPROXY_USER=User1 # User identity being used for the proxy (Matches the users names in the crypto-config directory specified in the config)
@@ -493,18 +493,14 @@ Navigate to the `fabric-chaincode-evm` cloned repo:
 ```
 cd $GOPATH/src/github.com/hyperledger/fabric-chaincode-evm/
 ```
-Run the following to build the fab proxy
+You can then run the second Fab3:
 ```
-go build -o fab3-member ./fabproxy/cmd
-```
-You can then run the proxy:
-```
-./fab3-member
+./fab3
 ```
 
-This will start fab proxy at `http://localhost:5001`
+This will start Fab3 at `http://localhost:5001`
 
-This second proxy can be now used as a member on the network.
+This second Fab3 will allow the user from Org2 to register as member on the the loyalty points network.
 
 ## 5. Run the web application
 
@@ -515,7 +511,7 @@ First, clone the repo:
 git clone https://github.com/IBM/loyalty-points-evm-fabric.git
 ```
 
-Next update the application with the contract address in the [dapp.js](https://github.com/raheelzubairy/loyalty-points-evm-fabric/blob/master/web-app/dapp.js#L3) file.
+Next update the application with the contract address in the [dapp.js](web-app/dapp.js#L3) file.
 
 Now you can build and start the application. From the root directory, navigate to `web-app` folder and build the the node dependancies:
 ```
