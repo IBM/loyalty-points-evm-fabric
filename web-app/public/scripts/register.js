@@ -2,20 +2,19 @@ var apiUrl = location.protocol + '//' + location.host + "/api/";
 
 console.log("at register.js");
 
-//check user input and call server to create dataset
+//call server to register member
 $('.register-member').click(function() {
 
   //get user input data
-  var formProxy = $('.proxy input').val();
   var formFirstName = $('.first-name input').val();
   var formLastName = $('.last-name input').val();
   var formEmail = $('.email input').val();
 
   //create json data
-  var inputData = '{' + '"firstname" : "' + formFirstName + '", ' + '"lastname" : "' + formLastName + '", ' + '"email" : "' + formEmail + '", ' + '"proxy" : "' + formProxy + '"}';
+  var inputData = '{' + '"firstname" : "' + formFirstName + '", ' + '"lastname" : "' + formLastName + '", ' + '"email" : "' + formEmail + '"}';
   console.log(inputData)
 
-  //make ajax call to add the dataset
+  //make ajax call to the server
   $.ajax({
     type: 'POST',
     url: apiUrl + 'registerMember',
@@ -61,16 +60,14 @@ $('.register-member').click(function() {
 });
 
 
-//check user input and call server to create dataset
+//call server to register partner
 $('.register-partner').click(function() {
 
   //get user input data
   var formName = $('.name input').val();
-  var formProxy = $('.proxy input').val();
-  var formContractAddress = $('.contractAddress input').val();
 
   //create json data
-  var inputData = '{' + '"name" : "' + formName + '", ' + '"proxy" : "' + formProxy + '", ' + '"contractaddress" : "' + formContractAddress + '"}';
+  var inputData = '{' + '"name" : "' + formName + '"}';
   console.log(inputData)
 
   //make ajax call to add the dataset

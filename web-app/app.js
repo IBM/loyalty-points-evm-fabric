@@ -56,13 +56,12 @@ app.post('/api/registerMember', function(req, res) {
   console.log('registerMember');
 
   //declare variables to retrieve from request
-  var proxy = req.body.proxy;
   var firstName = req.body.firstname;
   var lastName = req.body.lastname;
   var email = req.body.email;
 
   //print variables
-  console.log('Using param - firstname: ' + firstName + ' lastname: ' + lastName + ' email: ' + email + ' proxy: ' + proxy);
+  console.log('Using param - firstname: ' + firstName + ' lastname: ' + lastName + ' email: ' + email);
 
   var validateResponse = validate.validateMemberRegistration(firstName, lastName, email)
 
@@ -72,7 +71,7 @@ app.post('/api/registerMember', function(req, res) {
     });
   } else {
 
-    var response = dapp.registerMember(firstName, lastName, email, proxy);
+    var response = dapp.registerMember(firstName, lastName, email);
 
     if (response.error != null) {
       res.json({
@@ -92,10 +91,9 @@ app.post('/api/registerPartner', function(req, res) {
 
   //declare variables to retrieve from request
   var name = req.body.name;
-  var proxy = req.body.proxy;
 
   //print variables
-  console.log('Using param - name: ' + name + ' proxy: ' + proxy);
+  console.log('Using param - name: ' + name );
 
   var validateResponse = validate.validatePartnerRegistration(name);
 
@@ -105,7 +103,7 @@ app.post('/api/registerPartner', function(req, res) {
     });
   } else {
 
-    var response = dapp.registerPartner(name, proxy);
+    var response = dapp.registerPartner(name);
 
     if (response.error != null) {
       res.json({
@@ -122,15 +120,13 @@ app.post('/api/registerPartner', function(req, res) {
 
 
 //post call to retrieve member data, transactions data and partners
-app.post('/api/memberData', function(req, res) {
-
-  var proxy = req.body.proxy;
+app.get('/api/memberData', function(req, res) {
 
   //declare return object
   var returnData = {};
 
   //get member's data
-  var memberData = dapp.memberData(proxy);
+  var memberData = dapp.memberData();
   if (memberData.error != null) {
     res.json({
       error: memberData.error
@@ -139,7 +135,7 @@ app.post('/api/memberData', function(req, res) {
     returnData.memberData = memberData;
   }
 
-  var partnersData = dapp.partnersData(proxy);
+  var partnersData = dapp.partnersData();
   if (partnersData.error != null) {
     res.json({
       error: partnersData.error
@@ -148,7 +144,7 @@ app.post('/api/memberData', function(req, res) {
     returnData.partnersData = partnersData;
   }
 
-  var transactionsData = dapp.transactionsData(proxy);
+  var transactionsData = dapp.transactionsData();
   if (transactionsData.error != null) {
     res.json({
       error: transactionsData.error
@@ -167,10 +163,9 @@ app.post('/api/earnPoints', function(req, res) {
   //declare variables to retrieve from request
   var points = req.body.points;
   var partnerAddress = req.body.partneraddress;
-  var proxy = req.body.proxy;
 
   //print variables
-  console.log('Using param - points: ' + points + ' partnerAddress: ' + partnerAddress + ' proxy: ' + proxy);
+  console.log('Using param - points: ' + points + ' partnerAddress: ' + partnerAddress);
 
   var validateResponse = validate.validatePoints(points);
 
@@ -180,7 +175,7 @@ app.post('/api/earnPoints', function(req, res) {
     });
   } else {
 
-    var response = dapp.earnPoints(points, partnerAddress, proxy);
+    var response = dapp.earnPoints(points, partnerAddress);
 
     if (response.error != null) {
       res.json({
@@ -201,10 +196,9 @@ app.post('/api/usePoints', function(req, res) {
   //declare variables to retrieve from request
   var points = req.body.points;
   var partnerAddress = req.body.partneraddress;
-  var proxy = req.body.proxy;
 
   //print variables
-  console.log('Using param - points: ' + points + ' partnerAddress: ' + partnerAddress + ' proxy: ' + proxy);
+  console.log('Using param - points: ' + points + ' partnerAddress: ' + partnerAddress);
 
   var validateResponse = validate.validatePoints(points);
 
@@ -214,7 +208,7 @@ app.post('/api/usePoints', function(req, res) {
     });
   } else {
 
-    var response = dapp.usePoints(points, partnerAddress, proxy);
+    var response = dapp.usePoints(points, partnerAddress);
 
     if (response.error != null) {
       res.json({
@@ -231,15 +225,13 @@ app.post('/api/usePoints', function(req, res) {
 
 
 //post call to retrieve partner data and transactions data from the network
-app.post('/api/partnerData', function(req, res) {
-
-  var proxy = req.body.proxy;
+app.get('/api/partnerData', function(req, res) {
 
   //declare return object
   var returnData = {};
 
   //get member's data
-  var partnerData = dapp.partnerData(proxy);
+  var partnerData = dapp.partnerData();
   if (partnerData.error != null) {
     res.json({
       error: partnerData.error
@@ -248,7 +240,7 @@ app.post('/api/partnerData', function(req, res) {
     returnData.partnerData = partnerData;
   }
 
-  var transactionsData = dapp.transactionsData(proxy);
+  var transactionsData = dapp.transactionsData();
   if (transactionsData.error != null) {
     res.json({
       error: transactionsData.error
