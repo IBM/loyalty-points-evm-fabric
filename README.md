@@ -554,7 +554,7 @@ Now we can run the web application in this repo to interact with the deployed sm
 * Access the app as Member. Once inside the portal you can perform transactions to earn or redeem points from the partners on the network, and view all transactions.
 
 <div style='border: 2px solid #f00;'>
-  <img width="1000" src="docs/doc-images/app-partner.png">
+  <img width="1000" src="docs/doc-images/app-member.png">
 </div>
 
 
