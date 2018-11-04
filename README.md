@@ -49,14 +49,14 @@ This code pattern is for developers looking to create blockchain applications wi
 
 ## Steps
 
-1. [Deploy Hyperledger Fabric locally with EVM chaincode](#1-deploy-hyperledger-fabric-locally-with-evm=chaincode)
+1. [Deploy Hyperledger Fabric locally with EVM chaincode](#1-deploy-hyperledger-fabric-locally-with-evm-chaincode)
     - [Clean docker and set GOPATH](#clean-docker-and-set-gopath)
     - [Get Fabric Samples and download Fabric images](#get-fabric-samples-and-download-fabric-images)
     - [Mount the EVM Chaincode and start the network](#mount-the-evm-chaincode-and-start-the-network)
     - [Install and Instantiate EVM Chaincode](#install-and-instantiate-evm-chaincode)
 2. [Setup Fab3](#2-setup-fab3)
 3. [Deploy the smart contract](#3-deploy-the-smart-contract)
-4. [Setup a second Fab3](#4-setup-second-fab3)
+4. [Setup a second Fab3](#4-setup-a-second-fab3)
 5. [Run the web application](#5-run-the-web-application)
 
 
