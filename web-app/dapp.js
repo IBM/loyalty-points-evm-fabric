@@ -1,9 +1,9 @@
-//import Web3 from "web3";
+//github.com/IBM/hyperledger-fabric-evm-demo/blob/master/src/dapp.js
 const Web3 = require('web3');
-var contractAddress = 'afc802a0cd407f826a782b448a9a5c8008114d3d';
+var contractAddress = '8772a9143882e551845db9fafa1c6b1a0b596388';
+var provider = "http://localhost:5000";
 
 var myContract;
-var provider;
 
 function getContract() {
     console.log("Getting the Contract")
@@ -263,9 +263,8 @@ function getAccountAddress() {
 //export module
 module.exports = {
 
-  registerMember: function (firstName, lastName, email, proxy) {
+  registerMember: function (firstName, lastName, email) {
     try {
-      provider = proxy;
       var myContract = getContract();
       var response = myContract.registerMember(firstName, lastName, email);
       return response;
@@ -279,9 +278,8 @@ module.exports = {
     }
   },
 
-  registerPartner: function (name, proxy) {
+  registerPartner: function (name) {
     try {
-      provider = proxy;
       var myContract = getContract();
       var response = myContract.registerPartner(name);
       return response;
@@ -295,9 +293,8 @@ module.exports = {
     }
   },
 
-  memberData: function (proxy) {
+  memberData: function () {
     try {
-      provider = proxy;
       var myContract = getContract();
       var accountAddress = getAccountAddress();
       var memberData = myContract.members(accountAddress);
@@ -320,7 +317,6 @@ module.exports = {
 
   partnersData: function (proxy) {
     try {
-      provider = proxy;
       var myContract = getContract();
 
       var partnersLength = myContract.partnersInfoLength();
@@ -343,7 +339,6 @@ module.exports = {
 
   transactionsData: function (proxy) {
     try {
-      provider = proxy;
       var myContract = getContract();
 
       var transactionsLength = myContract.transactionsInfoLength();
@@ -366,7 +361,6 @@ module.exports = {
 
   earnPoints: function (points, partnerAddress, proxy) {
     try {
-      provider = proxy;
       var myContract = getContract();
 
       var response = myContract.earnPoints(points, partnerAddress);
@@ -384,7 +378,6 @@ module.exports = {
 
   usePoints: function (points, partnerAddress, proxy) {
     try {
-      provider = proxy;
       var myContract = getContract();
       var response = myContract.usePoints(points, partnerAddress);
       return response;
@@ -400,8 +393,6 @@ module.exports = {
 
   partnerData: function (proxy) {
     try {
-      provider = proxy;
-
       var myContract = getContract();
       var accountAddress = getAccountAddress();
       var partnerData = myContract.partners(accountAddress);

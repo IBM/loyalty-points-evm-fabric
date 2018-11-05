@@ -20,12 +20,12 @@ This code pattern is for developers looking to create blockchain applications wi
 
 **Note** The blockchain network can have multiple members and partners
 
-1. Partner would use their Fab3 for their account to access the blockchain network. The initial partner would deploy the smart contract to the blockchain network.
-2. Partner accesses the web application through their Fab3, to register on the network and view all transactions.
-3. Member would use there Fab3 for their account to access the blockchain network
-4. Member accesses the web application through their Fab3, to register on the network, perform transactions to earn or redeem points from the partners on the network, and view all transactions.
-5. The web application uses the ethereum web3.js library to submit smart contract transactions.
-6. The smart contract executions are updated on the network using the EVM chaincode installed on the peers
+1. Partner would access the loyalty points dapp to register on the network and view their portal.
+2. The loyalty points dapp built using the ethereum web3.js library makes use of Fab3 setup for the partner.
+3. This Fab3 will allow the partner to interact with the blockchain network
+4. Member would access the loyalty points dapp to register on the network and view their portal. Through their portal, they can perform transactions to earn or redeem points from the partners on the network, and view all transactions.
+5. This would use the same loyalty points dapp built using the ethereum web3.js library, using the Fab3 setup for the member.
+6. This Fab3 will allow the member to interact with the blockchain network
 
 # Included Components
 
@@ -49,14 +49,14 @@ This code pattern is for developers looking to create blockchain applications wi
 
 ## Steps
 
-1. [Deploy Hyperledger Fabric locally with EVM chaincode](#1-deploy-hyperledger-fabric-locally-with-evm=chaincode)
+1. [Deploy Hyperledger Fabric locally with EVM chaincode](#1-deploy-hyperledger-fabric-locally-with-evm-chaincode)
     - [Clean docker and set GOPATH](#clean-docker-and-set-gopath)
     - [Get Fabric Samples and download Fabric images](#get-fabric-samples-and-download-fabric-images)
     - [Mount the EVM Chaincode and start the network](#mount-the-evm-chaincode-and-start-the-network)
     - [Install and Instantiate EVM Chaincode](#install-and-instantiate-evm-chaincode)
-2. [Setup fab proxy](#2-setup-fab-proxy)
+2. [Setup Fab3](#2-setup-fab3)
 3. [Deploy the smart contract](#3-deploy-the-smart-contract)
-4. [Setup second fab proxy](#4-setup-second-fab-proxy)
+4. [Setup a second Fab3](#4-setup-a-second-fab3)
 5. [Run the web application](#5-run-the-web-application)
 
 
@@ -477,8 +477,6 @@ This contract address will be used to interact with your contract through the ap
 
 ## 4. Setup a second Fab3
 
-First, create a new config yaml file for the proxy. You can duplicate the `first-network-sdk-config.yaml` present here `${GOPATH}/src/github.com/hyperledger/fabric-chaincode-evm/examples/`, as the file `first-network-sdk-config-org2.yaml`. Update this config file for [organization](https://github.com/hyperledger/fabric-chaincode-evm/blob/master/examples/first-network-sdk-config.yaml#L25) to be `org2`.
-
 In a new terminal window, then provide environment variables for the second proxy using this config file, a new port number, and the different org:
 ```
 export FABPROXY_CONFIG=${GOPATH}/src/github.com/hyperledger/fabric-chaincode-evm/examples/first-network-sdk-config-org2.yaml # Path to a compatible Fabric SDK Go config file
@@ -506,29 +504,59 @@ This second Fab3 will allow the user from Org2 to register as member on the the 
 
 Now we can run the web application in this repo to interact with the deployed smart contract.
 
-First, clone the repo:
-```
-git clone https://github.com/IBM/loyalty-points-evm-fabric.git
-```
+* First, clone the repo:
+  ```
+  git clone https://github.com/IBM/loyalty-points-evm-fabric.git
+  ```
 
-Next update the application with the contract address in the [dapp.js](web-app/dapp.js#L3) file.
+* Build the application by navigating to `web-app` folder from the root directory and building the the node dependancies:
+  ```
+  cd web-app
+  npm install
+  ```
 
-Now you can build and start the application. From the root directory, navigate to `web-app` folder and build the the node dependancies:
-```
-cd web-app
-npm install
-```
+* Update the contract address for the application in the [dapp.js](web-app/dapp.js#L3) file
 
-Start the application
-```
-npm start
-```
-The application will be hosted at: http://localhost:8000/
+### Partner access
 
+* Update the provider for the application in the [dapp.js](web-app/dapp.js#L4) file to use the proxy for the partner i.e `http://localhost:5000`
+
+* Start the application
+  ```
+  npm start
+  ```
+  The application will be hosted at: http://localhost:8000/
 
 <div style='border: 2px solid #f00;'>
-  <img width="1000" src="docs/doc-images/app.png">
+  <img width="1000" src="docs/doc-images/app-register.png">
 </div>
+
+* Register the account as Partner
+
+* Access the app as Partner
+
+<div style='border: 2px solid #f00;'>
+  <img width="1000" src="docs/doc-images/app-partner.png">
+</div>
+
+### Member access
+
+* Update the provider for the application in the [dapp.js](web-app/dapp.js#L4) file to use the proxy for the member i.e `http://localhost:5001`
+
+* Start the application
+  ```
+  npm start
+  ```
+  The application will be hosted at: http://localhost:8000/
+
+* Register the account as Member
+
+* Access the app as Member. Once inside the portal you can perform transactions to earn or redeem points from the partners on the network, and view all transactions.
+
+<div style='border: 2px solid #f00;'>
+  <img width="1000" src="docs/doc-images/app-member.png">
+</div>
+
 
 ## Additional Documentation
 
@@ -536,6 +564,12 @@ The application will be hosted at: http://localhost:8000/
 * [Using remix to get ABI and bytecode](./docs/using-remix.md)
 * [Setup Fab Proxy and using Web3](./docs/proxy-web3-commands.md)
 * [Loyalty Program Use Case](./docs/use-case.md)
+
+## Extending Code Pattern
+This application demonstrates a basic idea of loyalty points using Blockchain and can be expanded in several ways:
+* Updating the solidity contract with a constructor to initialize the user deploying the contract as the main Partner for the program, while subsequent Partners would request permission from the main Partner to join the network
+* Updating the solidity contract and the application with deals and inventory of the products, where a Partner can update these deals and inventory. The inventory of the products would get updated upon each transaction
+* Adding events to the solidity contract transaction which are captured by the application and stored in an off-chain storage and accessed by the application
 
 ## Links
 * [Fabric Chaincode EVM](https://github.com/hyperledger/fabric-chaincode-evm)
