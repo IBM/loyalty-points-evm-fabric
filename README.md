@@ -30,7 +30,7 @@ This code pattern is for developers looking to create blockchain applications wi
 # Included Components
 
 * [Hyperledger Fabric v1.3](https://hyperledger-fabric.readthedocs.io/en/latest/) Hyperledger Fabric is a platform for distributed ledger solutions, underpinned by a modular architecture delivering high degrees of confidentiality, resiliency, flexibility and scalability
-* [Hyperledger Fabric EVM chaincode plugin](https://github.com/hyperledger/fabric-chaincode-evm) This project enables one to deploy Ethereum smart contracts written in an EVM compatible language such as Solidity or Vyper on the Hyperledger Fabric permissioned blockchain platform.
+* [Hyperledger Fabric EVM chaincode](https://github.com/hyperledger/fabric-chaincode-evm) This project enables one to deploy Ethereum smart contracts written in an EVM compatible language such as Solidity or Vyper on the Hyperledger Fabric permissioned blockchain platform.
 * [Ethereum web3.js](https://web3js.readthedocs.io/en/1.0/) web3.js is a library which allow you to interact with a local or remote nodes that implement the Ethereum JSON RPC API, using a HTTP or IPC connection.
 * [Solidity](https://solidity.readthedocs.io/en/v0.4.25/) Solidity is a contract-oriented, high-level language for implementing smart contracts
 
