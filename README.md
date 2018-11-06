@@ -479,7 +479,7 @@ This contract address will be used to interact with your contract through the ap
 
 In a new terminal window, then provide environment variables for the second proxy using this config file, a new port number, and the different org:
 ```
-export FABPROXY_CONFIG=${GOPATH}/src/github.com/hyperledger/fabric-chaincode-evm/examples/first-network-sdk-config-org2.yaml # Path to a compatible Fabric SDK Go config file
+export FABPROXY_CONFIG=${GOPATH}/src/github.com/hyperledger/fabric-chaincode-evm/examples/first-network-sdk-config.yaml # Path to a compatible Fabric SDK Go config file
 export FABPROXY_USER=User1 # User identity being used for the proxy (Matches the users names in the crypto-config directory specified in the config)
 export FABPROXY_ORG=Org2  # Organization of the specified user
 export FABPROXY_CHANNEL=mychannel # Channel to be used for the transactions
