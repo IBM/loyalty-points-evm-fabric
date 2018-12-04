@@ -161,7 +161,7 @@ Great. You are now ready to setup Fab3.
 
 ## 2. Setup Fab3
 
-In a terminal, execute the following to set certain environment variables required for setting up Fab3.
+In a new terminal window, execute the following to set certain environment variables required for setting up Fab3.
 
 ```
 export FABPROXY_CONFIG=${GOPATH}/src/github.com/hyperledger/fabric-chaincode-evm/examples/first-network-sdk-config.yaml # Path to a compatible Fabric SDK Go config file
