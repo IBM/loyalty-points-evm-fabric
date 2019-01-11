@@ -1,7 +1,7 @@
 //github.com/IBM/hyperledger-fabric-evm-demo/blob/master/src/dapp.js
 const Web3 = require('web3');
-var contractAddress = '8772a9143882e551845db9fafa1c6b1a0b596388';
-var provider = "http://localhost:5000";
+var contractAddress = '30a5c90d8593a94a89fdcb7a5e2aeb065f18b7af';
+var provider = "http://localhost:5001";
 
 var myContract;
 
