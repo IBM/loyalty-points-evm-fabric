@@ -35,7 +35,7 @@ This code pattern is for developers looking to create blockchain applications wi
 * [Solidity](https://solidity.readthedocs.io/en/v0.4.25/) Solidity is a contract-oriented, high-level language for implementing smart contracts
 
 ## Featured technology
-+ [Nodejs](https://www.python.org/) Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code server-side
++ [Nodejs](https://nodejs.org/en/) Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code server-side
 + [Bootstrap](https://getbootstrap.com/) Bootstrap is an open source toolkit for developing with HTML, CSS, and JS
 
 
