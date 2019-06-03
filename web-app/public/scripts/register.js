@@ -43,14 +43,14 @@ $('.register-member').click(function() {
         document.getElementById('registration-info').style.display = "none";
       }
 
-      console.log(data)
+      console.log(data);
 
     },
     error: function(jqXHR, textStatus, errorThrown) {
 
       document.getElementById('loader').style.display = "none";
       //reload on error
-      alert("Error: Try again")
+      alert("Error: Try again");
       console.log(errorThrown);
       console.log(textStatus);
       console.log(jqXHR);
@@ -68,7 +68,7 @@ $('.register-partner').click(function() {
 
   //create json data
   var inputData = '{' + '"name" : "' + formName + '"}';
-  console.log(inputData)
+  console.log(inputData);
 
   //make ajax call to add the dataset
   $.ajax({
@@ -101,7 +101,7 @@ $('.register-partner').click(function() {
     },
     error: function(jqXHR, textStatus, errorThrown) {
       //reload on error
-      alert("Error: Try again")
+      alert("Error: Try again");
       console.log(errorThrown);
       console.log(textStatus);
       console.log(jqXHR);

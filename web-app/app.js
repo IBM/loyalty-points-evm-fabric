@@ -4,7 +4,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-const path = require('path')
+const path = require('path');
 
 //create express web-app
 const app = express();
@@ -63,7 +63,7 @@ app.post('/api/registerMember', function(req, res) {
   //print variables
   console.log('Using param - firstname: ' + firstName + ' lastname: ' + lastName + ' email: ' + email);
 
-  var validateResponse = validate.validateMemberRegistration(firstName, lastName, email)
+  var validateResponse = validate.validateMemberRegistration(firstName, lastName, email);
 
   if (validateResponse.error != null) {
     res.json({

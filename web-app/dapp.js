@@ -1,12 +1,12 @@
 //github.com/IBM/hyperledger-fabric-evm-demo/blob/master/src/dapp.js
 const Web3 = require('web3');
-var contractAddress = '30a5c90d8593a94a89fdcb7a5e2aeb065f18b7af';
-var provider = "http://localhost:5001";
+var contractAddress = '4a7874b8c65e9bd9dcfdb5df4e67e9dc6b585113';
+var provider = "http://localhost:5000";
 
 var myContract;
 
 function getContract() {
-    console.log("Getting the Contract")
+    console.log("Getting the Contract");
 
     var web3 = new Web3();
     web3.setProvider(new web3.providers.HttpProvider(provider));
@@ -248,7 +248,7 @@ function getContract() {
 }
 
 function getAccountAddress() {
-    console.log("Getting the Contract")
+    console.log("Getting the Contract");
 
     var web3 = new Web3();
     web3.setProvider(new web3.providers.HttpProvider(provider));
@@ -302,7 +302,7 @@ module.exports = {
       if(memberData[5]) {
         return memberData;
       } else {
-        throw new Error("Member not found")
+        throw new Error("Member not found");
       }
 
     }
@@ -400,7 +400,7 @@ module.exports = {
       if(partnerData[2]) {
         return partnerData;
       } else {
-        throw new Error("Partner not found")
+        throw new Error("Partner not found");
       }
     }
     catch(err) {

@@ -208,7 +208,7 @@ function usePoints(formPoints) {
     },
     error: function(jqXHR, textStatus, errorThrown) {
       document.getElementById('loader').style.display = "none";
-      alert("Error: Try again")
+      alert("Error: Try again");
       console.log(errorThrown);
       console.log(textStatus);
       console.log(jqXHR);
