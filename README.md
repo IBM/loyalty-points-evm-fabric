@@ -94,7 +94,7 @@ git checkout release-1.4
 
 Download the docker images
 ```
-./scripts/bootstrap.sh
+curl -sSL http://bit.ly/2ysbOFE | bash -s 
 ```
 
 ### Mount the EVM Chaincode and start the network
