@@ -131,6 +131,20 @@ Generate certificates and bring up the network
 ./byfn.sh up
 ```
 
+Note if you get an error message during chaincode installation, as shown below, you can still
+continue with the next steps:
+
+```
+Installing chaincode on peer0.org1...
++ peer chaincode install -n mycc -v 1.0 -l golang -p github.com/chaincode/chaincode_example02/go/
++ res=1
++ set +x
+2020-03-27 17:33:33.245 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001 Using default escc
+2020-03-27 17:33:33.245 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002 Using default vscc
+Error: error getting chaincode code mycc: path to chaincode does not exist: /opt/gopath/src/github.com/chaincode/chaincode_example02/go
+!!!!!!!!!!!!!!! Chaincode installation on peer0.org1 has failed !!!!!!!!!!!!!!!!
+```
+
 ### Install and Instantiate EVM Chaincode
 
 Navigate into the cli docker container
